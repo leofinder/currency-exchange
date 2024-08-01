@@ -1,0 +1,12 @@
+INSERT INTO exchange_rates (base_currency_id, target_currency_id, rate) VALUES
+(1, 2, 0.92),  -- USD to EUR
+(1, 3, 108.55),  -- USD to JPY
+(2, 1, 1.09),  -- EUR to USD
+(2, 3, 118.40),  -- EUR to JPY
+(1, 4, 0.79),  -- USD to GBP
+(1, 5, 1.48),  -- USD to AUD
+(1, 6, 1.30),  -- USD to CAD
+(1, 7, 0.91),  -- USD to CHF
+(1, 8, 7.08),  -- USD to CNY
+(1, 9, 92.50),  -- USD to RUB
+(1, 10, 83.30);  -- USD to INR
