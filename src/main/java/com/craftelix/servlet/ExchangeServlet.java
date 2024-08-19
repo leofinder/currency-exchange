@@ -2,7 +2,7 @@ package com.craftelix.servlet;
 
 import com.craftelix.dto.ExchangeRequestDto;
 import com.craftelix.dto.ExchangeResponseDto;
-import com.craftelix.error.ErrorMessage;
+import com.craftelix.dto.ErrorMessageDto;
 import com.craftelix.exception.DataNotFoundException;
 import com.craftelix.exception.InvalidInputException;
 import com.craftelix.service.ExchangeService;
@@ -40,13 +40,13 @@ public class ExchangeServlet extends HttpServlet {
             mapper.writeValue(resp.getWriter(), exchangeResponseDto);
         } catch (InvalidInputException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (DataNotFoundException e) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         }
     }
 

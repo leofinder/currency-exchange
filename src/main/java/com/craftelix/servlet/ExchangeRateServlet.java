@@ -1,7 +1,7 @@
 package com.craftelix.servlet;
 
 import com.craftelix.dto.ExchangeRateDto;
-import com.craftelix.error.ErrorMessage;
+import com.craftelix.dto.ErrorMessageDto;
 import com.craftelix.service.ExchangeRateService;
 import com.craftelix.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +46,7 @@ public class ExchangeRateServlet extends HttpServlet {
             mapper.writeValue(resp.getWriter(), exchangeRateDto);
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         }
     }
 
@@ -70,7 +70,7 @@ public class ExchangeRateServlet extends HttpServlet {
             mapper.writeValue(resp.getWriter(), exchangeRateDto);
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         }
     }
 

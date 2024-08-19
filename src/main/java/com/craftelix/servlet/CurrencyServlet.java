@@ -1,7 +1,7 @@
 package com.craftelix.servlet;
 
 import com.craftelix.dto.CurrencyDto;
-import com.craftelix.error.ErrorMessage;
+import com.craftelix.dto.ErrorMessageDto;
 import com.craftelix.exception.DataNotFoundException;
 import com.craftelix.exception.InvalidInputException;
 import com.craftelix.service.CurrencyService;
@@ -26,6 +26,7 @@ public class CurrencyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             validateGetParameters(req);
+
             String requestURI = req.getRequestURI();
             String code = requestURI.replace("/currency/", "");
 
@@ -33,13 +34,13 @@ public class CurrencyServlet extends HttpServlet {
             mapper.writeValue(resp.getWriter(), currencyDto);
         } catch (InvalidInputException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (DataNotFoundException e) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         }
     }
 

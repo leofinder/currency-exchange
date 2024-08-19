@@ -2,7 +2,7 @@ package com.craftelix.servlet;
 
 import com.craftelix.dto.CreateCurrencyDto;
 import com.craftelix.dto.CurrencyDto;
-import com.craftelix.error.ErrorMessage;
+import com.craftelix.dto.ErrorMessageDto;
 import com.craftelix.exception.InvalidInputException;
 import com.craftelix.exception.SQLConstraintsException;
 import com.craftelix.service.CurrencyService;
@@ -30,7 +30,7 @@ public class CurrenciesServlet extends HttpServlet {
             mapper.writeValue(resp.getWriter(), currencyService.findAll());
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         }
     }
 
@@ -48,13 +48,13 @@ public class CurrenciesServlet extends HttpServlet {
             mapper.writeValue(resp.getWriter(), currencyDto);
         } catch (InvalidInputException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (SQLConstraintsException e) {
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         }
     }
 
