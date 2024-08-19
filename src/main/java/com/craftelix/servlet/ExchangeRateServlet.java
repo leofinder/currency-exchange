@@ -2,6 +2,8 @@ package com.craftelix.servlet;
 
 import com.craftelix.dto.ExchangeRateDto;
 import com.craftelix.dto.ErrorMessageDto;
+import com.craftelix.exception.DataNotFoundException;
+import com.craftelix.exception.InvalidInputException;
 import com.craftelix.service.ExchangeRateService;
 import com.craftelix.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,6 +46,12 @@ public class ExchangeRateServlet extends HttpServlet {
 
             ExchangeRateDto exchangeRateDto = exchangeRateService.findByCurrencies(base, target);
             mapper.writeValue(resp.getWriter(), exchangeRateDto);
+        } catch (InvalidInputException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
+        } catch (DataNotFoundException e) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
@@ -68,6 +76,12 @@ public class ExchangeRateServlet extends HttpServlet {
 
             ExchangeRateDto exchangeRateDto = exchangeRateService.update(base, target, rate);
             mapper.writeValue(resp.getWriter(), exchangeRateDto);
+        } catch (InvalidInputException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
+        } catch (DataNotFoundException e) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));

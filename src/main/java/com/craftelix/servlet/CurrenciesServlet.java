@@ -45,6 +45,7 @@ public class CurrenciesServlet extends HttpServlet {
             CreateCurrencyDto createCurrencyDto = new CreateCurrencyDto(code, name, sign);
 
             CurrencyDto currencyDto = currencyService.save(createCurrencyDto);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
             mapper.writeValue(resp.getWriter(), currencyDto);
         } catch (InvalidInputException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

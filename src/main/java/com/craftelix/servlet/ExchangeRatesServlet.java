@@ -5,6 +5,7 @@ import com.craftelix.dto.ExchangeRateDto;
 import com.craftelix.dto.ErrorMessageDto;
 import com.craftelix.exception.DataNotFoundException;
 import com.craftelix.exception.InvalidInputException;
+import com.craftelix.exception.SQLConstraintsException;
 import com.craftelix.service.ExchangeRateService;
 import com.craftelix.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,12 +48,16 @@ public class ExchangeRatesServlet extends HttpServlet {
 
             CreateExchangeRateDto createExchangeRateDto = new CreateExchangeRateDto(baseCurrencyCode, targetCurrencyCode, rate);
             ExchangeRateDto exchangeRateDto = exchangeRateService.save(createExchangeRateDto);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
             mapper.writeValue(resp.getWriter(), exchangeRateDto);
         } catch (InvalidInputException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (DataNotFoundException e) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
+        } catch (SQLConstraintsException e) {
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
             mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
         } catch (RuntimeException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
