@@ -48,7 +48,7 @@ public class CurrencyServlet extends HttpServlet {
         String requestURI = req.getRequestURI();
         String code  = requestURI.replace("/currency/", "");
 
-        ValidationUtil.validateHeadParameter("code", code);
+        ValidationUtil.validateQueryParameter("code", code);
         ValidationUtil.validateLength("code", code, 3);
     }
 }

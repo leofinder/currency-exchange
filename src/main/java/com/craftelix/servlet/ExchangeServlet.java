@@ -53,7 +53,7 @@ public class ExchangeServlet extends HttpServlet {
     private void validateGetParameters(HttpServletRequest req) {
         List<String> parameters = Arrays.asList("from", "to", "amount");
         for (String parameter : parameters) {
-            ValidationUtil.validateHeadParameter(parameter, req.getParameter(parameter));
+            ValidationUtil.validateQueryParameter(parameter, req.getParameter(parameter));
         }
 
         ValidationUtil.validateLength("from", req.getParameter("from"), 3);
