@@ -28,15 +28,19 @@ public final class ConnectionManager {
         try {
             String url = PropertiesUtil.get("url");
             if (url.startsWith("jdbc:sqlite:")) {
-                URL resource = ConnectionManager.class.getClassLoader().getResource("application.properties");
-                String relativePath = url.replace("jdbc:sqlite:", "");
-                Path dbPath = Paths.get(resource.toURI()).getParent().resolve(relativePath);
-                url = "jdbc:sqlite:" + dbPath.toAbsolutePath();
+                url = getSQLiteURL(url);
             }
             return DriverManager.getConnection(url);
         } catch (SQLException | URISyntaxException e) {
             throw new DatabaseOperationException(e);
         }
+    }
+
+    private static String getSQLiteURL(String url) throws URISyntaxException {
+        URL resource = ConnectionManager.class.getClassLoader().getResource("application.properties");
+        String relativePath = url.replace("jdbc:sqlite:", "");
+        Path dbPath = Paths.get(resource.toURI()).getParent().resolve(relativePath);
+        return "jdbc:sqlite:" + dbPath.toAbsolutePath();
     }
 
     private ConnectionManager() {
