@@ -1,5 +1,7 @@
 package com.craftelix.util;
 
+import com.craftelix.exception.DatabaseOperationException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,7 +16,7 @@ public final class ConnectionManager {
         try {
             Class.forName(PropertiesUtil.get("driver-class-name"));
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseOperationException(e);
         }
     }
 
@@ -22,7 +24,7 @@ public final class ConnectionManager {
         try {
             return DriverManager.getConnection(PropertiesUtil.get("url"));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseOperationException(e);
         }
     }
 
