@@ -45,7 +45,7 @@ public class ExchangeService {
 
         Optional<ExchangeRate> reverseExchangeRate = exchangeRateDao.findByCurrencies(target, base);
         if (reverseExchangeRate.isPresent()) {
-            BigDecimal rate = new BigDecimal(1).divide(reverseExchangeRate.get().getRate(), 6, RoundingMode.HALF_UP);
+            BigDecimal rate = BigDecimal.ONE.divide(reverseExchangeRate.get().getRate(), 6, RoundingMode.HALF_UP);
             ExchangeEntity exchangeEntity = buildExchangeEntity(base, target, rate, amount);
             return exchangeResponseMapper.mapFrom(exchangeEntity);
         }
@@ -57,7 +57,7 @@ public class ExchangeService {
         if (usdBaseExchangeRate.isPresent() && usdTargetExchangeRate.isPresent()) {
             BigDecimal usdBaseRate = usdBaseExchangeRate.get().getRate();
             BigDecimal usdTargetRate = usdTargetExchangeRate.get().getRate();
-            BigDecimal rate = usdBaseRate.divide(usdTargetRate, 6, RoundingMode.HALF_UP);
+            BigDecimal rate = usdTargetRate.divide(usdBaseRate, 6, RoundingMode.HALF_UP);
             ExchangeEntity exchangeEntity = buildExchangeEntity(base, target, rate, amount);
             return exchangeResponseMapper.mapFrom(exchangeEntity);
         } else {
@@ -71,7 +71,7 @@ public class ExchangeService {
                 target,
                 rate,
                 amount,
-                rate.multiply(amount)
+                rate.multiply(amount).setScale(2, RoundingMode.HALF_UP)
         );
     }
 }
