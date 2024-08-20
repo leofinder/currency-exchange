@@ -1,6 +1,6 @@
 package com.craftelix.mapper;
 
-import com.craftelix.dto.CurrencyDto;
+import com.craftelix.dto.CurrencyResponseDto;
 import com.craftelix.dto.ExchangeResponseDto;
 import com.craftelix.entity.Currency;
 import com.craftelix.entity.ExchangeEntity;
@@ -9,7 +9,7 @@ public class ExchangeResponseMapper implements Mapper<ExchangeEntity, ExchangeRe
 
     private static final ExchangeResponseMapper INSTANCE = new ExchangeResponseMapper();
 
-    private final Mapper<Currency, CurrencyDto> currencyMapper = CurrencyMapper.getInstance();
+    private final Mapper<Currency, CurrencyResponseDto> currencyMapper = CurrencyMapper.getInstance();
 
     private ExchangeResponseMapper() {
 

@@ -2,8 +2,8 @@ package com.craftelix.service;
 
 import com.craftelix.dao.CurrencyDao;
 import com.craftelix.dao.JdbcCurrencyDao;
-import com.craftelix.dto.CreateCurrencyDto;
-import com.craftelix.dto.CurrencyDto;
+import com.craftelix.dto.CurrencyRequestDto;
+import com.craftelix.dto.CurrencyResponseDto;
 import com.craftelix.entity.Currency;
 import com.craftelix.exception.DataNotFoundException;
 import com.craftelix.mapper.CreateCurrencyMapper;
@@ -21,8 +21,8 @@ public class CurrencyService {
 
     private final CurrencyDao currencyDao = JdbcCurrencyDao.getInstance();
 
-    private final Mapper<CreateCurrencyDto, Currency> createCurrencyMapper = CreateCurrencyMapper.getInstance();
-    private final Mapper<Currency, CurrencyDto> currencyMapper = CurrencyMapper.getInstance();
+    private final Mapper<CurrencyRequestDto, Currency> createCurrencyMapper = CreateCurrencyMapper.getInstance();
+    private final Mapper<Currency, CurrencyResponseDto> currencyMapper = CurrencyMapper.getInstance();
 
     private CurrencyService() {
     }
@@ -31,19 +31,19 @@ public class CurrencyService {
         return INSTANCE;
     }
 
-    public List<CurrencyDto> findAll() {
+    public List<CurrencyResponseDto> findAll() {
         return currencyDao.findAll().stream()
                 .map(currencyMapper::mapFrom)
                 .collect(toList());
     }
 
-    public CurrencyDto save(CreateCurrencyDto createCurrencyDto) {
-        Currency createCurrency = createCurrencyMapper.mapFrom(createCurrencyDto);
+    public CurrencyResponseDto save(CurrencyRequestDto currencyRequestDto) {
+        Currency createCurrency = createCurrencyMapper.mapFrom(currencyRequestDto);
         Currency currency = currencyDao.save(createCurrency);
         return currencyMapper.mapFrom(currency);
     }
 
-    public CurrencyDto findByCode(String code) {
+    public CurrencyResponseDto findByCode(String code) {
         Currency currency = findCurrencyByCode(code);
         return currencyMapper.mapFrom(currency);
     }

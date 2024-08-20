@@ -1,15 +1,15 @@
 package com.craftelix.mapper;
 
-import com.craftelix.dto.CurrencyDto;
-import com.craftelix.dto.ExchangeRateDto;
+import com.craftelix.dto.CurrencyResponseDto;
+import com.craftelix.dto.ExchangeRateResponseDto;
 import com.craftelix.entity.Currency;
 import com.craftelix.entity.ExchangeRate;
 
-public class ExchangeRateMapper implements Mapper<ExchangeRate, ExchangeRateDto> {
+public class ExchangeRateMapper implements Mapper<ExchangeRate, ExchangeRateResponseDto> {
 
     private static final ExchangeRateMapper INSTANCE = new ExchangeRateMapper();
 
-    private final Mapper<Currency, CurrencyDto> currencyMapper = CurrencyMapper.getInstance();
+    private final Mapper<Currency, CurrencyResponseDto> currencyMapper = CurrencyMapper.getInstance();
 
     private ExchangeRateMapper() {
 
@@ -20,8 +20,8 @@ public class ExchangeRateMapper implements Mapper<ExchangeRate, ExchangeRateDto>
     }
 
     @Override
-    public ExchangeRateDto mapFrom(ExchangeRate object) {
-        return new ExchangeRateDto(
+    public ExchangeRateResponseDto mapFrom(ExchangeRate object) {
+        return new ExchangeRateResponseDto(
                 object.getId(),
                 currencyMapper.mapFrom(object.getBaseCurrency()),
                 currencyMapper.mapFrom(object.getTargetCurrency()),

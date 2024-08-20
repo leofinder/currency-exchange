@@ -1,6 +1,6 @@
 package com.craftelix.servlet;
 
-import com.craftelix.dto.CurrencyDto;
+import com.craftelix.dto.CurrencyResponseDto;
 import com.craftelix.service.CurrencyService;
 import com.craftelix.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,8 +26,8 @@ public class CurrencyServlet extends HttpServlet {
         String requestURI = req.getRequestURI();
         String code = requestURI.replace("/currency/", "").toUpperCase();
 
-        CurrencyDto currencyDto = currencyService.findByCode(code);
-        mapper.writeValue(resp.getWriter(), currencyDto);
+        CurrencyResponseDto currencyResponseDto = currencyService.findByCode(code);
+        mapper.writeValue(resp.getWriter(), currencyResponseDto);
     }
 
     private void validateGetParameters(HttpServletRequest req) {

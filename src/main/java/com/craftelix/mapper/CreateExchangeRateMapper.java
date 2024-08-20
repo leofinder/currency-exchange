@@ -1,10 +1,10 @@
 package com.craftelix.mapper;
 
-import com.craftelix.dto.CreateExchangeRateDto;
+import com.craftelix.dto.ExchangeRateRequestDto;
 import com.craftelix.entity.ExchangeRate;
 import com.craftelix.service.CurrencyService;
 
-public class CreateExchangeRateMapper implements Mapper<CreateExchangeRateDto, ExchangeRate> {
+public class CreateExchangeRateMapper implements Mapper<ExchangeRateRequestDto, ExchangeRate> {
 
     private static final CreateExchangeRateMapper INSTANCE = new CreateExchangeRateMapper();
 
@@ -19,7 +19,7 @@ public class CreateExchangeRateMapper implements Mapper<CreateExchangeRateDto, E
     }
 
     @Override
-    public ExchangeRate mapFrom(CreateExchangeRateDto object) {
+    public ExchangeRate mapFrom(ExchangeRateRequestDto object) {
         return new ExchangeRate(
                 currencyService.findCurrencyByCode(object.baseCurrencyCode()),
                 currencyService.findCurrencyByCode(object.targetCurrencyCode()),

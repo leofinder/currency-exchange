@@ -2,10 +2,9 @@ package com.craftelix.dto;
 
 import java.math.BigDecimal;
 
-public record ExchangeResponseDto(
+public record ExchangeRateResponseDto(
+        Integer id,
         CurrencyResponseDto baseCurrency,
         CurrencyResponseDto targetCurrency,
-        BigDecimal rate,
-        BigDecimal amount,
-        BigDecimal convertedAmount) {
+        BigDecimal rate) {
 }

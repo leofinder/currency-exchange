@@ -1,7 +1,6 @@
 package com.craftelix.dto;
 
-public record CurrencyDto(
-        Integer id,
+public record CurrencyRequestDto(
         String code,
         String name,
         String sign) {

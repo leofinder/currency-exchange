@@ -1,7 +1,7 @@
 package com.craftelix.servlet;
 
-import com.craftelix.dto.CreateCurrencyDto;
-import com.craftelix.dto.CurrencyDto;
+import com.craftelix.dto.CurrencyRequestDto;
+import com.craftelix.dto.CurrencyResponseDto;
 import com.craftelix.service.CurrencyService;
 import com.craftelix.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,11 +34,11 @@ public class CurrenciesServlet extends HttpServlet {
         String name = req.getParameter("name");
         String sign = req.getParameter("sign");
 
-        CreateCurrencyDto createCurrencyDto = new CreateCurrencyDto(code, name, sign);
+        CurrencyRequestDto currencyRequestDto = new CurrencyRequestDto(code, name, sign);
 
-        CurrencyDto currencyDto = currencyService.save(createCurrencyDto);
+        CurrencyResponseDto currencyResponseDto = currencyService.save(currencyRequestDto);
         resp.setStatus(HttpServletResponse.SC_CREATED);
-        mapper.writeValue(resp.getWriter(), currencyDto);
+        mapper.writeValue(resp.getWriter(), currencyResponseDto);
     }
 
     private void validatePostParameters(HttpServletRequest req) {

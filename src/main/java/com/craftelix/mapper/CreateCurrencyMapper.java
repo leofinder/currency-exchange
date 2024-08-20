@@ -1,9 +1,9 @@
 package com.craftelix.mapper;
 
-import com.craftelix.dto.CreateCurrencyDto;
+import com.craftelix.dto.CurrencyRequestDto;
 import com.craftelix.entity.Currency;
 
-public class CreateCurrencyMapper implements Mapper<CreateCurrencyDto, Currency> {
+public class CreateCurrencyMapper implements Mapper<CurrencyRequestDto, Currency> {
 
     private static final CreateCurrencyMapper INSTANCE = new CreateCurrencyMapper();
 
@@ -16,7 +16,7 @@ public class CreateCurrencyMapper implements Mapper<CreateCurrencyDto, Currency>
     }
 
     @Override
-    public Currency mapFrom(CreateCurrencyDto object) {
+    public Currency mapFrom(CurrencyRequestDto object) {
         return new Currency(
                 object.code(),
                 object.name(),

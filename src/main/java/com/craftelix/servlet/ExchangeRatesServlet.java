@@ -1,7 +1,7 @@
 package com.craftelix.servlet;
 
-import com.craftelix.dto.CreateExchangeRateDto;
-import com.craftelix.dto.ExchangeRateDto;
+import com.craftelix.dto.ExchangeRateRequestDto;
+import com.craftelix.dto.ExchangeRateResponseDto;
 import com.craftelix.service.ExchangeRateService;
 import com.craftelix.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,8 +36,8 @@ public class ExchangeRatesServlet extends HttpServlet {
         String targetCurrencyCode = req.getParameter("targetCurrencyCode").toUpperCase();
         BigDecimal rate = new BigDecimal(req.getParameter("rate"));
 
-        CreateExchangeRateDto createExchangeRateDto = new CreateExchangeRateDto(baseCurrencyCode, targetCurrencyCode, rate);
-        ExchangeRateDto exchangeRateDto = exchangeRateService.save(createExchangeRateDto);
+        ExchangeRateRequestDto exchangeRateRequestDto = new ExchangeRateRequestDto(baseCurrencyCode, targetCurrencyCode, rate);
+        ExchangeRateResponseDto exchangeRateDto = exchangeRateService.save(exchangeRateRequestDto);
         resp.setStatus(HttpServletResponse.SC_CREATED);
         mapper.writeValue(resp.getWriter(), exchangeRateDto);
     }

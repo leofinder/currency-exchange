@@ -2,7 +2,7 @@ package com.craftelix.dto;
 
 import java.math.BigDecimal;
 
-public record CreateExchangeRateDto(
+public record ExchangeRateRequestDto(
         String baseCurrencyCode,
         String targetCurrencyCode,
         BigDecimal rate) {

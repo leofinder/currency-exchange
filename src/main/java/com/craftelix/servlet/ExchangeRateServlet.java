@@ -1,6 +1,6 @@
 package com.craftelix.servlet;
 
-import com.craftelix.dto.ExchangeRateDto;
+import com.craftelix.dto.ExchangeRateResponseDto;
 import com.craftelix.service.ExchangeRateService;
 import com.craftelix.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +40,7 @@ public class ExchangeRateServlet extends HttpServlet {
         String base = currenciesPair.substring(0, 3);
         String target = currenciesPair.substring(3);
 
-        ExchangeRateDto exchangeRateDto = exchangeRateService.findByCurrencies(base, target);
+        ExchangeRateResponseDto exchangeRateDto = exchangeRateService.findByCurrencies(base, target);
         mapper.writeValue(resp.getWriter(), exchangeRateDto);
     }
 
@@ -60,7 +60,7 @@ public class ExchangeRateServlet extends HttpServlet {
             String paramRateValue = parameter.replace("rate=", "");
             BigDecimal rate = new BigDecimal(paramRateValue);
 
-            ExchangeRateDto exchangeRateDto = exchangeRateService.update(base, target, rate);
+            ExchangeRateResponseDto exchangeRateDto = exchangeRateService.update(base, target, rate);
             mapper.writeValue(resp.getWriter(), exchangeRateDto);
         } catch (IOException e) {
             throw new RuntimeException(e);

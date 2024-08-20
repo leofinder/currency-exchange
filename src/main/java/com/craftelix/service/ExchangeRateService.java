@@ -2,8 +2,8 @@ package com.craftelix.service;
 
 import com.craftelix.dao.ExchangeRateDao;
 import com.craftelix.dao.JdbcExchangeRateDao;
-import com.craftelix.dto.CreateExchangeRateDto;
-import com.craftelix.dto.ExchangeRateDto;
+import com.craftelix.dto.ExchangeRateRequestDto;
+import com.craftelix.dto.ExchangeRateResponseDto;
 import com.craftelix.entity.Currency;
 import com.craftelix.entity.ExchangeRate;
 import com.craftelix.exception.DataNotFoundException;
@@ -24,8 +24,8 @@ public class ExchangeRateService {
     private final CurrencyService currencyService = CurrencyService.getInstance();
     private final ExchangeRateDao exchangeRateDao = JdbcExchangeRateDao.getInstance();
 
-    private final Mapper<CreateExchangeRateDto, ExchangeRate> createExchangeRateMapper = CreateExchangeRateMapper.getInstance();
-    private final Mapper<ExchangeRate, ExchangeRateDto> exchangeRateMapper = ExchangeRateMapper.getInstance();
+    private final Mapper<ExchangeRateRequestDto, ExchangeRate> createExchangeRateMapper = CreateExchangeRateMapper.getInstance();
+    private final Mapper<ExchangeRate, ExchangeRateResponseDto> exchangeRateMapper = ExchangeRateMapper.getInstance();
 
     private ExchangeRateService() {
 
@@ -35,19 +35,19 @@ public class ExchangeRateService {
         return INSTANCE;
     }
 
-    public List<ExchangeRateDto> findAll() {
+    public List<ExchangeRateResponseDto> findAll() {
         return exchangeRateDao.findAll().stream()
                 .map(exchangeRateMapper::mapFrom)
                 .collect(toList());
     }
 
-    public ExchangeRateDto save(CreateExchangeRateDto createExchangeRateDto) {
-        ExchangeRate createExchangeRate = createExchangeRateMapper.mapFrom(createExchangeRateDto);
+    public ExchangeRateResponseDto save(ExchangeRateRequestDto exchangeRateRequestDto) {
+        ExchangeRate createExchangeRate = createExchangeRateMapper.mapFrom(exchangeRateRequestDto);
         ExchangeRate exchangeRate = exchangeRateDao.save(createExchangeRate);
         return exchangeRateMapper.mapFrom(exchangeRate);
     }
 
-    public ExchangeRateDto findByCurrencies(String baseCode, String targetCode) {
+    public ExchangeRateResponseDto findByCurrencies(String baseCode, String targetCode) {
         Currency base = currencyService.findCurrencyByCode(baseCode);
         Currency target = currencyService.findCurrencyByCode(targetCode);
 
@@ -59,7 +59,7 @@ public class ExchangeRateService {
         }
     }
 
-    public ExchangeRateDto update(String baseCode, String targetCode, BigDecimal rate) {
+    public ExchangeRateResponseDto update(String baseCode, String targetCode, BigDecimal rate) {
         Currency base = currencyService.findCurrencyByCode(baseCode);
         Currency target = currencyService.findCurrencyByCode(targetCode);
 
