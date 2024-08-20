@@ -30,8 +30,8 @@ public class ExchangeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         validateGetParameters(req);
 
-        String baseCode = req.getParameter("from");
-        String targetCode = req.getParameter("to");
+        String baseCode = req.getParameter("from").toUpperCase();
+        String targetCode = req.getParameter("to").toUpperCase();
         BigDecimal amount = new BigDecimal(req.getParameter("amount"));
 
         ExchangeRequestDto exchangeRequestDto = new ExchangeRequestDto(baseCode, targetCode, amount);

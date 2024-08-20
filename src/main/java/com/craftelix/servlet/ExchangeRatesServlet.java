@@ -36,8 +36,8 @@ public class ExchangeRatesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         validatePostParameters(req);
 
-        String baseCurrencyCode = req.getParameter("baseCurrencyCode");
-        String targetCurrencyCode = req.getParameter("targetCurrencyCode");
+        String baseCurrencyCode = req.getParameter("baseCurrencyCode").toUpperCase();
+        String targetCurrencyCode = req.getParameter("targetCurrencyCode").toUpperCase();
         BigDecimal rate = new BigDecimal(req.getParameter("rate"));
 
         CreateExchangeRateDto createExchangeRateDto = new CreateExchangeRateDto(baseCurrencyCode, targetCurrencyCode, rate);
