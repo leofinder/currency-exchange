@@ -21,7 +21,7 @@ public final class PropertiesUtil {
     }
 
     private static void loadProperties() {
-        try (InputStream input = PropertiesUtil.class.getClassLoader().getResourceAsStream("db/liquibase.properties")) {
+        try (InputStream input = PropertiesUtil.class.getClassLoader().getResourceAsStream("application.properties")) {
             PROPERTIES.load(input);
         } catch (IOException e) {
             throw new RuntimeException(e);
