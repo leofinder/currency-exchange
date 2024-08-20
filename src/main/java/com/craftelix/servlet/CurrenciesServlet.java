@@ -26,37 +26,22 @@ public class CurrenciesServlet extends HttpServlet {
     private final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            mapper.writeValue(resp.getWriter(), currencyService.findAll());
-        } catch (RuntimeException e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        }
+        mapper.writeValue(resp.getWriter(), currencyService.findAll());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            validatePostParameters(req);
-            String code = req.getParameter("code").toUpperCase();
-            String name = req.getParameter("name");
-            String sign = req.getParameter("sign");
+        validatePostParameters(req);
 
-            CreateCurrencyDto createCurrencyDto = new CreateCurrencyDto(code, name, sign);
+        String code = req.getParameter("code").toUpperCase();
+        String name = req.getParameter("name");
+        String sign = req.getParameter("sign");
 
-            CurrencyDto currencyDto = currencyService.save(createCurrencyDto);
-            resp.setStatus(HttpServletResponse.SC_CREATED);
-            mapper.writeValue(resp.getWriter(), currencyDto);
-        } catch (InvalidInputException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (SQLConstraintsException e) {
-            resp.setStatus(HttpServletResponse.SC_CONFLICT);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (RuntimeException e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        }
+        CreateCurrencyDto createCurrencyDto = new CreateCurrencyDto(code, name, sign);
+
+        CurrencyDto currencyDto = currencyService.save(createCurrencyDto);
+        resp.setStatus(HttpServletResponse.SC_CREATED);
+        mapper.writeValue(resp.getWriter(), currencyDto);
     }
 
     private void validatePostParameters(HttpServletRequest req) {

@@ -35,27 +35,16 @@ public class ExchangeRateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            validateGetParameters(req);
+        validateGetParameters(req);
 
-            String requestURI = req.getRequestURI();
-            String currenciesPair = requestURI.replace("/exchangeRate/", "").toUpperCase();
+        String requestURI = req.getRequestURI();
+        String currenciesPair = requestURI.replace("/exchangeRate/", "").toUpperCase();
 
-            String base = currenciesPair.substring(0, 3);
-            String target = currenciesPair.substring(3);
+        String base = currenciesPair.substring(0, 3);
+        String target = currenciesPair.substring(3);
 
-            ExchangeRateDto exchangeRateDto = exchangeRateService.findByCurrencies(base, target);
-            mapper.writeValue(resp.getWriter(), exchangeRateDto);
-        } catch (InvalidInputException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (DataNotFoundException e) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (RuntimeException e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        }
+        ExchangeRateDto exchangeRateDto = exchangeRateService.findByCurrencies(base, target);
+        mapper.writeValue(resp.getWriter(), exchangeRateDto);
     }
 
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -76,15 +65,8 @@ public class ExchangeRateServlet extends HttpServlet {
 
             ExchangeRateDto exchangeRateDto = exchangeRateService.update(base, target, rate);
             mapper.writeValue(resp.getWriter(), exchangeRateDto);
-        } catch (InvalidInputException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (DataNotFoundException e) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (RuntimeException e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

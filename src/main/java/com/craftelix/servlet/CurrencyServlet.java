@@ -24,31 +24,20 @@ public class CurrencyServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            validateGetParameters(req);
+        validateGetParameters(req);
 
-            String requestURI = req.getRequestURI();
-            String code = requestURI.replace("/currency/", "");
+        String requestURI = req.getRequestURI();
+        String code = requestURI.replace("/currency/", "").toUpperCase();
 
-            CurrencyDto currencyDto = currencyService.findByCode(code);
-            mapper.writeValue(resp.getWriter(), currencyDto);
-        } catch (InvalidInputException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (DataNotFoundException e) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (RuntimeException e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        }
+        CurrencyDto currencyDto = currencyService.findByCode(code);
+        mapper.writeValue(resp.getWriter(), currencyDto);
     }
 
     private void validateGetParameters(HttpServletRequest req) {
         String requestURI = req.getRequestURI();
         String code  = requestURI.replace("/currency/", "");
 
-        ValidationUtil.validateQueryParameter("code", code);
-        ValidationUtil.validateLength("code", code, 3);
+        ValidationUtil.validateQueryParameter("Код валюты", code);
+        ValidationUtil.validateLength("Код валюты", code, 3);
     }
 }

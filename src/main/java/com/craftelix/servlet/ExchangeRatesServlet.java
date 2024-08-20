@@ -29,40 +29,21 @@ public class ExchangeRatesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            mapper.writeValue(resp.getWriter(), exchangeRateService.findAll());
-        } catch (RuntimeException e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        }
+        mapper.writeValue(resp.getWriter(), exchangeRateService.findAll());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            validatePostParameters(req);
+        validatePostParameters(req);
 
-            String baseCurrencyCode = req.getParameter("baseCurrencyCode");
-            String targetCurrencyCode = req.getParameter("targetCurrencyCode");
-            BigDecimal rate = new BigDecimal(req.getParameter("rate"));
+        String baseCurrencyCode = req.getParameter("baseCurrencyCode");
+        String targetCurrencyCode = req.getParameter("targetCurrencyCode");
+        BigDecimal rate = new BigDecimal(req.getParameter("rate"));
 
-            CreateExchangeRateDto createExchangeRateDto = new CreateExchangeRateDto(baseCurrencyCode, targetCurrencyCode, rate);
-            ExchangeRateDto exchangeRateDto = exchangeRateService.save(createExchangeRateDto);
-            resp.setStatus(HttpServletResponse.SC_CREATED);
-            mapper.writeValue(resp.getWriter(), exchangeRateDto);
-        } catch (InvalidInputException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (DataNotFoundException e) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (SQLConstraintsException e) {
-            resp.setStatus(HttpServletResponse.SC_CONFLICT);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (RuntimeException e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        }
+        CreateExchangeRateDto createExchangeRateDto = new CreateExchangeRateDto(baseCurrencyCode, targetCurrencyCode, rate);
+        ExchangeRateDto exchangeRateDto = exchangeRateService.save(createExchangeRateDto);
+        resp.setStatus(HttpServletResponse.SC_CREATED);
+        mapper.writeValue(resp.getWriter(), exchangeRateDto);
     }
 
     private void validatePostParameters(HttpServletRequest req) {

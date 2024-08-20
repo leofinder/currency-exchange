@@ -28,26 +28,15 @@ public class ExchangeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            validateGetParameters(req);
+        validateGetParameters(req);
 
-            String baseCode = req.getParameter("from");
-            String targetCode = req.getParameter("to");
-            BigDecimal amount = new BigDecimal(req.getParameter("amount"));
+        String baseCode = req.getParameter("from");
+        String targetCode = req.getParameter("to");
+        BigDecimal amount = new BigDecimal(req.getParameter("amount"));
 
-            ExchangeRequestDto exchangeRequestDto = new ExchangeRequestDto(baseCode, targetCode, amount);
-            ExchangeResponseDto exchangeResponseDto = exchangeService.get(exchangeRequestDto);
-            mapper.writeValue(resp.getWriter(), exchangeResponseDto);
-        } catch (InvalidInputException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (DataNotFoundException e) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        } catch (RuntimeException e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
-        }
+        ExchangeRequestDto exchangeRequestDto = new ExchangeRequestDto(baseCode, targetCode, amount);
+        ExchangeResponseDto exchangeResponseDto = exchangeService.get(exchangeRequestDto);
+        mapper.writeValue(resp.getWriter(), exchangeResponseDto);
     }
 
     private void validateGetParameters(HttpServletRequest req) {
