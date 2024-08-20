@@ -1,9 +1,6 @@
 package com.craftelix.servlet;
 
 import com.craftelix.dto.ExchangeRateDto;
-import com.craftelix.dto.ErrorMessageDto;
-import com.craftelix.exception.DataNotFoundException;
-import com.craftelix.exception.InvalidInputException;
 import com.craftelix.service.ExchangeRateService;
 import com.craftelix.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
