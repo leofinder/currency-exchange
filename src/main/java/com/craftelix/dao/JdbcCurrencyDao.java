@@ -1,7 +1,7 @@
 package com.craftelix.dao;
 
 import com.craftelix.entity.Currency;
-import com.craftelix.exception.DaoException;
+import com.craftelix.exception.DatabaseOperationException;
 import com.craftelix.exception.SQLConstraintsException;
 import com.craftelix.util.ConnectionManager;
 
@@ -44,7 +44,7 @@ public class JdbcCurrencyDao implements CurrencyDao {
             if (e.getErrorCode() == 19) {
                 throw new SQLConstraintsException("Валюта с кодом %s уже существует".formatted(currency.getCode()));
             } else {
-                throw new DaoException(e);
+                throw new DatabaseOperationException(e);
             }
         }
     }
@@ -68,7 +68,7 @@ public class JdbcCurrencyDao implements CurrencyDao {
             }
             return Optional.ofNullable(currency);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DatabaseOperationException(e);
         }
     }
 
@@ -89,7 +89,7 @@ public class JdbcCurrencyDao implements CurrencyDao {
             }
             return currencies;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DatabaseOperationException(e);
         }
     }
 

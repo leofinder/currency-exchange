@@ -2,7 +2,7 @@ package com.craftelix.dao;
 
 import com.craftelix.entity.Currency;
 import com.craftelix.entity.ExchangeRate;
-import com.craftelix.exception.DaoException;
+import com.craftelix.exception.DatabaseOperationException;
 import com.craftelix.exception.SQLConstraintsException;
 import com.craftelix.util.ConnectionManager;
 
@@ -46,7 +46,7 @@ public class JdbcExchangeRateDao implements ExchangeRateDao {
                 throw new SQLConstraintsException("Валютная пара с кодом %s-%s уже существует"
                         .formatted(exchangeRate.getBaseCurrency().getCode(), exchangeRate.getTargetCurrency().getCode()));
             } else {
-                throw new DaoException(e);
+                throw new DatabaseOperationException(e);
             }
         }
     }
@@ -72,7 +72,7 @@ public class JdbcExchangeRateDao implements ExchangeRateDao {
             }
             return Optional.ofNullable(exchangeRate);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DatabaseOperationException(e);
         }
     }
 
@@ -106,7 +106,7 @@ public class JdbcExchangeRateDao implements ExchangeRateDao {
             }
             return Optional.ofNullable(exchangeRate);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DatabaseOperationException(e);
         }
     }
 
@@ -136,7 +136,7 @@ public class JdbcExchangeRateDao implements ExchangeRateDao {
             }
             return exchangeRates;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DatabaseOperationException(e);
         }
     }
 
