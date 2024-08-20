@@ -6,6 +6,7 @@ import com.craftelix.dto.ExchangeResponseDto;
 import com.craftelix.entity.Currency;
 import com.craftelix.entity.ExchangeEntity;
 import com.craftelix.entity.ExchangeRate;
+import com.craftelix.exception.DataNotFoundException;
 import com.craftelix.mapper.ExchangeResponseMapper;
 import com.craftelix.mapper.Mapper;
 
@@ -60,9 +61,9 @@ public class ExchangeService {
             BigDecimal rate = usdTargetRate.divide(usdBaseRate, 6, RoundingMode.HALF_UP);
             ExchangeEntity exchangeEntity = buildExchangeEntity(base, target, rate, amount);
             return exchangeResponseMapper.mapFrom(exchangeEntity);
-        } else {
-            throw new RuntimeException();
         }
+
+        throw new DataNotFoundException("Для валютной пары %s-%s невозможно определить курс".formatted(base.getCode(), target.getCode()));
     }
 
     private static ExchangeEntity buildExchangeEntity(Currency base, Currency target, BigDecimal rate, BigDecimal amount) {
