@@ -1,6 +1,6 @@
 package com.craftelix.filter;
 
-import com.craftelix.dto.ErrorMessageDto;
+import com.craftelix.error.ErrorMessage;
 import com.craftelix.exception.DataNotFoundException;
 import com.craftelix.exception.InvalidInputException;
 import com.craftelix.exception.SQLConstraintsException;
@@ -24,19 +24,19 @@ public class ExceptionFilter implements Filter {
         } catch (InvalidInputException e) {
             HttpServletResponse resp = (HttpServletResponse) servletResponse;
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
         } catch (DataNotFoundException e) {
             HttpServletResponse resp = (HttpServletResponse) servletResponse;
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
         } catch (SQLConstraintsException e) {
             HttpServletResponse resp = (HttpServletResponse) servletResponse;
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
         } catch (RuntimeException e) {
             HttpServletResponse resp = (HttpServletResponse) servletResponse;
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            mapper.writeValue(resp.getWriter(), new ErrorMessageDto(e.getMessage()));
+            mapper.writeValue(resp.getWriter(), new ErrorMessage(e.getMessage()));
         }
     }
 }
