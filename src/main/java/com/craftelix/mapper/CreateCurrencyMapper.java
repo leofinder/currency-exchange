@@ -20,7 +20,7 @@ public class CreateCurrencyMapper implements Mapper<CreateCurrencyDto, Currency>
         return new Currency(
                 object.code(),
                 object.name(),
-                object.sing()
+                object.sign()
         );
     }
 }
