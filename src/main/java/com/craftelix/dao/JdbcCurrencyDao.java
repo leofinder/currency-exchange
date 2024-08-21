@@ -4,6 +4,7 @@ import com.craftelix.entity.Currency;
 import com.craftelix.exception.DatabaseOperationException;
 import com.craftelix.exception.SQLConstraintsException;
 import com.craftelix.util.ConnectionManager;
+import org.sqlite.SQLiteException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import java.util.Optional;
 public class JdbcCurrencyDao implements CurrencyDao {
 
     private static final JdbcCurrencyDao INSTANCE = new JdbcCurrencyDao();
+
+    private static final String SQLITE_CONSTRAINT_UNIQUE = "SQLITE_CONSTRAINT_UNIQUE";
 
     private JdbcCurrencyDao() {
     }
@@ -39,13 +42,15 @@ public class JdbcCurrencyDao implements CurrencyDao {
                 currency.setId(generatedKeys.getInt(1));
             }
             return currency;
-
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new SQLConstraintsException("Валюта с кодом %s уже существует".formatted(currency.getCode()));
         } catch (SQLException e) {
-            if (e.getErrorCode() == 19) {
-                throw new SQLConstraintsException("Валюта с кодом %s уже существует".formatted(currency.getCode()));
-            } else {
-                throw new DatabaseOperationException(e);
+            if (e instanceof SQLiteException) {
+                if (SQLITE_CONSTRAINT_UNIQUE.equals(((SQLiteException) e).getResultCode().name())) {
+                    throw new SQLConstraintsException("Валюта с кодом %s уже существует".formatted(currency.getCode()));
+                }
             }
+            throw new DatabaseOperationException(e);
         }
     }
 

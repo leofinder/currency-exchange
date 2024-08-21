@@ -5,6 +5,7 @@ import com.craftelix.entity.ExchangeRate;
 import com.craftelix.exception.DatabaseOperationException;
 import com.craftelix.exception.SQLConstraintsException;
 import com.craftelix.util.ConnectionManager;
+import org.sqlite.SQLiteException;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -15,6 +16,8 @@ import java.util.Optional;
 public class JdbcExchangeRateDao implements ExchangeRateDao {
 
     private static final JdbcExchangeRateDao INSTANCE = new JdbcExchangeRateDao();
+
+    private static final String SQLITE_CONSTRAINT_UNIQUE = "SQLITE_CONSTRAINT_UNIQUE";
 
     private JdbcExchangeRateDao() {
     }
@@ -41,13 +44,17 @@ public class JdbcExchangeRateDao implements ExchangeRateDao {
                 exchangeRate.setId(generatedKeys.getInt(1));
             }
             return exchangeRate;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new SQLConstraintsException("Валютная пара с кодом %s-%s уже существует"
+                    .formatted(exchangeRate.getBaseCurrency().getCode(), exchangeRate.getTargetCurrency().getCode()));
         } catch (SQLException e) {
-            if (e.getErrorCode() == 19) {
-                throw new SQLConstraintsException("Валютная пара с кодом %s-%s уже существует"
-                        .formatted(exchangeRate.getBaseCurrency().getCode(), exchangeRate.getTargetCurrency().getCode()));
-            } else {
-                throw new DatabaseOperationException(e);
+            if (e instanceof SQLiteException) {
+                if (SQLITE_CONSTRAINT_UNIQUE.equals(((SQLiteException) e).getResultCode().name())) {
+                    throw new SQLConstraintsException("Валютная пара с кодом %s-%s уже существует"
+                            .formatted(exchangeRate.getBaseCurrency().getCode(), exchangeRate.getTargetCurrency().getCode()));
+                }
             }
+            throw new DatabaseOperationException(e);
         }
     }
 
