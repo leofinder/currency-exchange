@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "fcbd7d18-2ebb-402f-a422-fac5bc9c59df",
+		"name": "currency-exchange",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12986302"
+	},
+	"item": [
+		{
+			"name": "currency",
+			"item": [
+				{
+					"name": "[currencies] find all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/currencies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"currencies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[currencies] save new TON",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "tocken",
+								"value": "123978",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "TON",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "Toncoin",
+									"type": "text"
+								},
+								{
+									"key": "sign",
+									"value": "T",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/currencies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"currencies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[currency] find by code RUB",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/currency/RUB",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"currency",
+								"RUB"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "exchangeRate",
+			"item": [
+				{
+					"name": "[exchangeRates] find all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/exchangeRates",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchangeRates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[exchangeRates] save new EURRUB",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "baseCurrencyCode",
+									"value": "EUR",
+									"type": "text"
+								},
+								{
+									"key": "targetCurrencyCode",
+									"value": "RUB",
+									"type": "text"
+								},
+								{
+									"key": "rate",
+									"value": "98.05",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/exchangeRates",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchangeRates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[exchangeRate] find USDJPY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/exchangeRate/USDJPY",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchangeRate",
+								"USDJPY"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[exchangeRate] find RUBUSD",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/exchangeRate/RUBUSD",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchangeRate",
+								"RUBUSD"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[exchangeRate] patch USDRUB",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "rate",
+									"value": "101.5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/exchangeRate/EURRUB",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchangeRate",
+								"EURRUB"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "exchange",
+			"item": [
+				{
+					"name": "exchange?from=RUB&to=USD&amount=100",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/exchange?from=RUB&to=USD&amount=100",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchange"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "RUB"
+								},
+								{
+									"key": "to",
+									"value": "USD"
+								},
+								{
+									"key": "amount",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exchange?from=USD&to=RUB&amount=100",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/exchange?from=USD&to=RUB&amount=100",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchange"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "USD"
+								},
+								{
+									"key": "to",
+									"value": "RUB"
+								},
+								{
+									"key": "amount",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exchange?from=RUB&to=TON&amount=12.34",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/exchange?from=RUB&to=TON&amount=12.34",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchange"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "RUB"
+								},
+								{
+									"key": "to",
+									"value": "TON"
+								},
+								{
+									"key": "amount",
+									"value": "12.34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exchange?from=JPY&to=RUB&amount=10.55",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/exchange?from=JPY&to=RUB&amount=10.55",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"exchange"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "JPY"
+								},
+								{
+									"key": "to",
+									"value": "RUB"
+								},
+								{
+									"key": "amount",
+									"value": "10.55"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:8080"
+		}
+	]
+}
