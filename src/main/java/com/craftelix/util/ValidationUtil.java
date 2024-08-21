@@ -19,7 +19,7 @@ public final class ValidationUtil {
     }
 
     public static void validateQueryParameter(String key, String value) {
-        if (value.isBlank()) {
+        if (value == null || value.isBlank()) {
             throw new InvalidInputException("В адресе отсутствует параметр %s".formatted(key));
         }
     }
