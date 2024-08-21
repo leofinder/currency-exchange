@@ -23,16 +23,14 @@ public class CurrencyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         validateGetParameters(req);
 
-        String requestURI = req.getRequestURI();
-        String code = requestURI.replace("/currency/", "").toUpperCase();
+        String code = req.getPathInfo().replaceAll("/", "").toUpperCase();
 
         CurrencyResponseDto currencyResponseDto = currencyService.findByCode(code);
         mapper.writeValue(resp.getWriter(), currencyResponseDto);
     }
 
     private void validateGetParameters(HttpServletRequest req) {
-        String requestURI = req.getRequestURI();
-        String code  = requestURI.replace("/currency/", "");
+        String code  = req.getPathInfo().replaceAll("/", "");
 
         ValidationUtil.validateQueryParameter("Код валюты", code);
         ValidationUtil.validateLength("Код валюты", code, 3);

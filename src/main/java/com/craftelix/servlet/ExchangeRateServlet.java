@@ -34,8 +34,7 @@ public class ExchangeRateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         validateGetParameters(req);
 
-        String requestURI = req.getRequestURI();
-        String currenciesPair = requestURI.replace("/exchangeRate/", "").toUpperCase();
+        String currenciesPair = req.getPathInfo().replaceAll("/", "").toUpperCase();
 
         String base = currenciesPair.substring(0, 3);
         String target = currenciesPair.substring(3);
@@ -51,8 +50,7 @@ public class ExchangeRateServlet extends HttpServlet {
 
             validatePatchParameters(req, parameter);
 
-            String requestURI = req.getRequestURI();
-            String currenciesPair = requestURI.replace("/exchangeRate/", "").toUpperCase();
+            String currenciesPair = req.getPathInfo().replaceAll("/", "").toUpperCase();
 
             String base = currenciesPair.substring(0, 3);
             String target = currenciesPair.substring(3);
@@ -68,16 +66,14 @@ public class ExchangeRateServlet extends HttpServlet {
     }
 
     private void validateGetParameters(HttpServletRequest req) {
-        String requestURI = req.getRequestURI();
-        String currenciesPair = requestURI.replace("/exchangeRate/", "");
+        String currenciesPair = req.getPathInfo().replaceAll("/", "");
 
         ValidationUtil.validateQueryParameter("Коды валют пары", currenciesPair);
         ValidationUtil.validateLength("code", currenciesPair, 6);
     }
 
     private void validatePatchParameters(HttpServletRequest req, String parameter) {
-        String requestURI = req.getRequestURI();
-        String currenciesPair = requestURI.replace("/exchangeRate/", "");
+        String currenciesPair = req.getPathInfo().replaceAll("/", "");
 
         ValidationUtil.validateQueryParameter("Коды валют пары", currenciesPair);
         ValidationUtil.validateLength("code", currenciesPair, 6);
