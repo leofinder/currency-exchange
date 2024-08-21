@@ -69,14 +69,14 @@ public class ExchangeRateServlet extends HttpServlet {
         String currenciesPair = req.getPathInfo().replaceAll("/", "");
 
         ValidationUtil.validateQueryParameter("Коды валют пары", currenciesPair);
-        ValidationUtil.validateLength("code", currenciesPair, 6);
+        ValidationUtil.validateLength("Коды валют пары", currenciesPair, 6);
     }
 
     private void validatePatchParameters(HttpServletRequest req, String parameter) {
         String currenciesPair = req.getPathInfo().replaceAll("/", "");
 
         ValidationUtil.validateQueryParameter("Коды валют пары", currenciesPair);
-        ValidationUtil.validateLength("code", currenciesPair, 6);
+        ValidationUtil.validateLength("Коды валют пары", currenciesPair, 6);
 
         ValidationUtil.validatePatchParameter(parameter, "rate");
         String paramRateValue = parameter.replace("rate=", "");
